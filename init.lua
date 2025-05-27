@@ -157,6 +157,22 @@ vim.opt.cursorline = true
 -- Minimal number of screen lines to keep above and below the cursor.
 vim.opt.scrolloff = 10
 
+-- [[Rene Custom Keymap]]
+local linting_enabled = true
+
+function TogglePyrightLinting()
+  linting_enabled = not linting_enabled
+  local settings = linting_enabled and {
+    python = { analysis = { typeCheckingMode = 'basic' } },
+  } or {
+    python = { analysis = { ignore = { '*' }, typeCheckingMode = 'off' } },
+  }
+  require('lspconfig').pyright.setup { settings = settings }
+  vim.cmd 'LspRestart'
+end
+
+vim.api.nvim_set_keymap('n', '<leader>tl', ':lua TogglePyrightLinting()<CR>', { noremap = true, silent = true })
+
 -- [[ Basic Keymaps ]]
 --  See `:help vim.keymap.set()`
 
@@ -615,9 +631,9 @@ require('lazy').setup({
       --  - settings (table): Override the default settings passed when initializing the server.
       --        For example, to see the options for `lua_ls`, you could go to: https://luals.github.io/wiki/settings/
       local servers = {
-        -- clangd = {},
+        clangd = {},
         -- gopls = {},
-        -- pyright = {},
+        pyright = {},
         -- rust_analyzer = {},
         -- ... etc. See `:help lspconfig-all` for a list of all the pre-configured LSPs
         --
@@ -938,7 +954,7 @@ require('lazy').setup({
   --    This is the easiest way to modularize your config.
   --
   --  Uncomment the following line and add your plugins to `lua/custom/plugins/*.lua` to get going.
-  -- { import = 'custom.plugins' },
+  { import = 'custom.plugins' },
   --
   -- For additional information with loading, sourcing and examples see `:help lazy.nvim-🔌-plugin-spec`
   -- Or use telescope!
@@ -968,3 +984,4 @@ require('lazy').setup({
 
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et
+vim.opt.clipboard = 'unnamedplus'

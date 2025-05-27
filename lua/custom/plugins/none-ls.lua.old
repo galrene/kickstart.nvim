@@ -1,0 +1,10 @@
+return {
+  'nvimtools/none-ls.nvim',
+  dependencies = { 'nvimtools/none-ls-extras.nvim' }, -- For extra sources like flake8
+  opts = function(_, opts)
+    opts.sources = opts.sources or {}
+    -- Use the flake8 diagnostics from none-ls-extras
+    table.insert(opts.sources, require 'none-ls.diagnostics.flake8')
+    -- You can add more sources here as needed
+  end,
+}

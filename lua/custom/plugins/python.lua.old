@@ -1,0 +1,27 @@
+return {
+  {
+    'williamboman/mason.nvim',
+    opts = function(_, opts)
+      opts.ensure_installed = opts.ensure_installed or {}
+      vim.list_extend(opts.ensure_installed, { 'basedpyright', 'flake8' })
+    end,
+  },
+  {
+    'neovim/nvim-lspconfig',
+    opts = {
+      servers = {
+        basedpyright = {},
+      },
+    },
+  },
+  {
+    'nvimtools/none-ls.nvim', -- or "jose-elias-alvarez/null-ls.nvim"
+    opts = function(_, opts)
+      opts.sources = opts.sources or {}
+      local null_ls = require 'null-ls'
+      vim.list_extend(opts.sources, {
+        null_ls.builtins.diagnostics.flake8,
+      })
+    end,
+  },
+}
