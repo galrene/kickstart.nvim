@@ -172,7 +172,10 @@ function TogglePyrightLinting()
 end
 
 vim.api.nvim_set_keymap('n', '<leader>tl', ':lua TogglePyrightLinting()<CR>', { noremap = true, silent = true })
-
+-- compile and run a C file
+vim.keymap.set('n', '<leader>ru', ':w<CR>:!gcc -Wall -pedantic % -o %:r && ./%:r<CR>', { desc = 'Compile and run C file' })
+-- run current python file
+vim.keymap.set('n', '<leader>ru', ':w<CR>:!python3 %<CR>', { desc = 'Run Python file' })
 -- [[ Basic Keymaps ]]
 --  See `:help vim.keymap.set()`
 
